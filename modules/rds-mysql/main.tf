@@ -6,6 +6,9 @@ locals {
     }
   )
 }
+data "vault_generic_secret" "db_password" {
+  path = var.vault_path
+}
 
 resource "aws_db_instance" "primary" {
   engine                  = "mysql"
@@ -15,7 +18,7 @@ resource "aws_db_instance" "primary" {
   storage_type            = "gp2"
   name                    = var.name
   username                = var.username
-  password                = var.password
+  password                = data.vault_generic_secret.db_password.data.password
   parameter_group_name    = aws_db_parameter_group.mysql.name
   vpc_security_group_ids  = [aws_security_group.mysql.id]
   subnet_group_name       = aws_db_subnet_group.mysql.name
@@ -33,7 +36,7 @@ resource "aws_db_instance" "secondary" {
   storage_type            = "gp2"
   name                    = "${var.name}-secondary-${count.index + 1}"
   username                = var.username
-  password                = var.password
+  password                = data.vault_generic_secret.db_password.data.password
   parameter_group_name    = aws_db_parameter_group.mysql.name
   vpc_security_group_ids  = [aws_security_group.mysql.id]
   subnet_group_name       = aws_db_subnet_group.mysql.name
