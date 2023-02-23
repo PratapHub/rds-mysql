@@ -1,38 +1,42 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 0.14"
+  required_providers {
+    aws = ">= 2.0"
+  }
 }
 
 provider "aws" {
   region = var.region
-  version = "~> 2.0"
 }
 
-resource "aws_db_subnet_group" "rds_mysql_subnet_group" {
-  name       = var.name
-  subnet_ids = var.subnet_ids
+resource "aws_db_instance" "primary" {
+  # Create a MySQL database instance in the primary region
 }
 
-resource "aws_security_group" "rds_mysql_sg" {
-  name_prefix = "${var.name}-"
-  vpc_id      = var.vpc_id
+resource "aws_db_instance" "secondary" {
+  # Create a MySQL database instance in the secondary region
 }
 
-resource "aws_db_instance" "rds_mysql" {
-  name             = var.name
-  engine           = var.engine
-  engine_version   = var.engine_version
-  instance_class   = var.instance_class
-  allocated_storage = var.allocated_storage
-  username         = var.username
-  password         = var.password
-  db_subnet_group_name  = aws_db_subnet_group.rds_mysql_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_mysql_sg.id]
-  multi_az         = var.multi_az
-  backup_retention_period = var.backup_retention_period
-  maintenance_window = var.maintenance_window
-  tags             = var.tags
+resource "aws_db_instance_replica" "secondary" {
+  # Create a read replica for the primary MySQL instance in the secondary region
+}
 
-  availability_zone = var.availability_zone
+resource "aws_security_group" "mysql" {
+  # Create a security group for the MySQL database instances
+}
 
-  secondary_availability_zones = var.secondary_availability_zones
+resource "aws_db_subnet_group" "mysql" {
+  # Create a subnet group for the MySQL database instances
+}
+
+resource "aws_db_parameter_group" "mysql" {
+  # Create a parameter group for the MySQL database instances
+}
+
+output "primary_endpoint" {
+  # Output the endpoint of the primary MySQL database instance
+}
+
+output "secondary_endpoints" {
+  # Output the endpoints of the read replicas in the secondary region
 }
