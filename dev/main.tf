@@ -1,8 +1,13 @@
+data "vault_generic_secret" "db_password" {
+  path = "secret/data/db"
+}
+
+
 module "rds_mysql" {
   source  = "./modules/rds-mysql"
   name    = var.name
   username = var.username
-  password = var.password
+  password = data.vault_generic_secret.db_password.data.password
 
   subnet_ids = data.aws_subnet_ids.all.ids
 
