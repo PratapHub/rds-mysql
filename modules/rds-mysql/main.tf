@@ -1,3 +1,12 @@
+locals {
+  tags = merge(
+    var.tags,
+    {
+      "Name" = var.name
+    }
+  )
+}
+
 resource "aws_db_instance" "primary" {
   engine                  = "mysql"
   engine_version          = "5.7.30"
@@ -11,7 +20,8 @@ resource "aws_db_instance" "primary" {
   vpc_security_group_ids  = [aws_security_group.mysql.id]
   subnet_group_name       = aws_db_subnet_group.mysql.name
   multi_az                = true
-  availability_zone       = var.availability_zone
+  availability_zone       = var.primary_availability_zone
+  tags                    = local.tags
 }
 
 resource "aws_db_instance" "secondary" {
@@ -28,6 +38,7 @@ resource "aws_db_instance" "secondary" {
   vpc_security_group_ids  = [aws_security_group.mysql.id]
   subnet_group_name       = aws_db_subnet_group.mysql.name
   availability_zone       = element(var.secondary_availability_zones, count.index)
+  tags                    = local.tags
 }
 
 resource "aws_db_instance_replica" "secondary" {
@@ -40,11 +51,13 @@ resource "aws_db_instance_replica" "secondary" {
 
 resource "aws_security_group" "mysql" {
   name_prefix = "mysql"
+  tags        = local.tags
 }
 
 resource "aws_db_subnet_group" "mysql" {
   name        = "mysql"
   subnet_ids  = var.subnet_ids
+  tags        = local.tags
 }
 
 resource "aws_db_parameter_group" "mysql" {
