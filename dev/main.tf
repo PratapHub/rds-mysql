@@ -4,7 +4,7 @@
 
 
 module "rds_mysql" {
-  source  = "./modules/rds-mysql"
+  source  = "../modules/rds-mysql"
   name    = var.name
   username = var.username
   #password = data.vault_generic_secret.db_password.data.password
