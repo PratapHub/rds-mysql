@@ -13,8 +13,8 @@ variable "password" {
   description = "The password for the RDS MySQL instance"
 
   # Use Terraform Vault to securely manage the password
-  sensitive = true
-  default   = vault("YOUR_PATH_secret/data/rds/mysql_password") 
+#   sensitive = true
+#   default   = vault("YOUR_PATH_secret/data/rds/mysql_password") 
 }
 
 variable "vpc_id" {
