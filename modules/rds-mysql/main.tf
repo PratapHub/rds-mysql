@@ -6,9 +6,9 @@ locals {
     }
   )
 }
-data "vault_generic_secret" "db_password" {
-  path = var.vault_path
-}
+# data "vault_generic_secret" "db_password" {
+#   path = var.vault_path
+# }
 
 resource "aws_rds_cluster_parameter_group" "cluster" {
   name_prefix = var.name
@@ -25,7 +25,8 @@ resource "aws_rds_cluster" "cluster" {
   engine_version               = "5.7.mysql_aurora.2.08.1"
   database_name                = "mydb"
   master_username              = var.username
-  master_password              = data.vault_generic_secret.db_password.data.password
+#   master_password              = data.vault_generic_secret.db_password.data.password
+  password                = var.password
   backup_retention_period      = 7
   preferred_backup_window      = "07:00-09:00"
   backup_window                = "23:00-01:00"
