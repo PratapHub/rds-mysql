@@ -5,7 +5,8 @@ resource "aws_dms_replication_instance" "dms" {
   replication_instance_class = var.dms_replication_instance_class
   replication_instance_id   = "dms-replication-instance"
   vpc_security_group_ids    = [var.dms_replication_security_group_id]
-  availability_zone         = "us-east-1a"
+  availability_zone         = "ca-central-1a"
+  replication_instance_role_arn = aws_iam_role.dms_replication_instance_role.arn
   multi_az                  = false
   engine_name               = "aurora"
   publicly_accessible       = false
