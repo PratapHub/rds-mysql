@@ -1,6 +1,4 @@
-# AWS credentials
-access_key = "your_aws_access_key"
-secret_key = "your_aws_secret_key"
+
 
 # DMS endpoint details
 source_endpoint_name = "your_source_endpoint_name"
