@@ -18,4 +18,4 @@ replication_instance_identifier = "your_replication_instance_identifier"
 vpc_security_group_ids = ["your_vpc_security_group_id"]
 
 # Table mappings
-table_mappings_file_path = "path/to/table_mappings.json"
+table_mappings_file_path = "table_mappings.json"
