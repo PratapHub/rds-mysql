@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "rule-type": "selection",
+      "rule-id": "1",
+      "rule-name": "include_tables",
+      "object-locator": {
+        "schema-name": "CAMUNDA_TA",
+        "table-name": "%"
+      },
+      "rule-action": "include"
+    },
+    {
+      "rule-type": "selection",
+      "rule-id": "2",
+      "rule-name": "include_tables",
+      "object-locator": {
+        "schema-name": "CAMUNDA_TI",
+        "table-name": "%"
+      },
+      "rule-action": "include"
+    },
+    {
+      "rule-type": "selection",
+      "rule-id": "3",
+      "rule-name": "include_tables",
+      "object-locator": {
+        "schema-name": "CAMUNDA_TU",
+        "table-name": "%"
+      },
+      "rule-action": "include"
+    }
+  ]
+}
